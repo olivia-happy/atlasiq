@@ -35,7 +35,7 @@ AtlasIQ 不再只回答“某国市场值不值得看”，而是把研究结果
 
 AtlasIQ 以“新能源出海市场进入研究”为场景：首批支持德国、西班牙、法国、阿联酋和沙特，将公开数据、研究证据、透明评分、情景模拟、实时 AI 简报、市场动态和可投递报告放进同一条可追溯的决策链路。
 
-架构与面试讲解图见 [docs/architecture.md](docs/architecture.md)，面试话术见 [docs/interview/atlasiq-interview-guide.md](docs/interview/atlasiq-interview-guide.md)。
+产品需求文档见 [docs/ATLASIQ_PRD.md](docs/ATLASIQ_PRD.md)，架构与面试讲解图见 [docs/architecture.md](docs/architecture.md)，面试话术见 [docs/interview/atlasiq-interview-guide.md](docs/interview/atlasiq-interview-guide.md)。
 
 ## 项目解决的问题
 
