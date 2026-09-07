@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+node_modules/
+dist/
+.env
+backend/*.db
+generated-reports/
+.DS_Store
+
+# private working notes / tool caches
+.learnings/
+skills/
+docs/superpowers/
+*.zip
