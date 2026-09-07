@@ -1,5 +1,7 @@
 # AtlasIQ
 
+> **运行成本：免费** — 数据源全部为免费公开数据（PVGIS / World Bank / OWID / Open-Meteo / 公开 RSS-GDELT），本地 SQLite 默认运行；Ollama 可选，不依赖付费 API 或云服务。
+
 > **界面预览（德国光伏市场工作台）**
 >
 > ![AtlasIQ 德国光伏市场工作台](docs/screenshots/dashboard.png)
