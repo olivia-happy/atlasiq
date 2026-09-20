@@ -11,6 +11,9 @@ generated-reports/
 
 # private working notes / tool caches
 .learnings/
-skills/
+# third-party skills imported from a skill marketplace (not authored here)
+skills/@user_*/
+# project-authored skills under skills/<name>/ are committed on purpose
+skills/.skills_store_lock.json
 docs/superpowers/
 *.zip

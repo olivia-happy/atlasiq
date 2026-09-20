@@ -8,6 +8,20 @@
 >
 > 左侧选择国家市场（德国/西班牙/法国/阿联酋/沙特），右侧是八因素影响矩阵、当前市场判断、带证据的研究结论与项目推进待办。
 
+> **更多界面**
+>
+> ![AtlasIQ 八因素影响矩阵](docs/screenshots/evidence-matrix.png)
+>
+> _八因素影响矩阵：每个因素显示分值、状态（observed / assumption / insufficient）、覆盖率、来源与缺失率；回落基线的因素会明确标注，不伪装成实测。_
+>
+> ![AtlasIQ 研究简报](docs/screenshots/research-brief.png)
+>
+> _研究简报：受控 AI 仅在服务端证据范围内组织表达，不可用时确定性降级，降级回答仍带可引用证据。_
+>
+> ![AtlasIQ 决策复盘](docs/screenshots/decision-review.png)
+>
+> _决策复盘：准入评估的 blocker、人工复核项与证据变更触发的复盘记录。_
+
 ## 多源特征仓与证据闭环（2026-08-18）
 
 AtlasIQ 现在把每个国家的公开观测、新闻摘要和评分快照分开保存：PVGIS 提供太阳能资源与单位装机年发电潜力，World Bank Open Data 提供 GDP 增长、FDI、电力可及性和可再生电力占比；OWID、Open-Meteo 与公开 RSS/GDELT 则分别补充年度能源、短期天气和事件信号。所有来源均免费、无需付费 API 或云服务。
