@@ -1,0 +1,53 @@
+---
+description: "AtlasIQ 项目总则：环境命令、架构红线、数据边界与提交约定"
+alwaysApply: true
+---
+
+# AtlasIQ 项目规则
+
+面向企业出海团队的海外市场准入研究与尽调工作台。产品背景见 `docs/ATLASIQ_PRD.md`，
+人类接手见 `HANDOFF.md`，跨工具通用指令见 `AGENTS.md`。
+
+## 环境与命令
+
+Python 3.11+、Node.js 20+，后端依赖在 `backend/.venv`。
+
+```powershell
+cd backend
+..\.venv\Scripts\python.exe -m pytest tests -q     # 后端 73 个用例
+
+cd frontend
+npm run lint      # tsc --noEmit
+npm run build     # tsc --noEmit && vite build
+
+powershell -ExecutionPolicy Bypass -File scripts\verify.ps1   # 一键全量
+```
+
+改后端逻辑必须跑 `pytest tests -q`；改 `schemas.py` 必须同时跑前端 `npm run lint`。
+
+## 架构红线
+
+- **AI 不许改分**：市场评分、情景、敏感性永远走确定性规则（`services/market.py`、`services/market_packs.py`）。
+  模型只允许在服务端证据范围内组织表达（`services/research.py`）。
+- **三态披露是数据契约**：`FactorItem.status` 的 `observed` / `assumption` / `insufficient`
+  定义在 `schemas.py`，与 `coverage_ratio` / `missing_ratio` / `source_ids` 一起对外。
+  加分值时同步维护这几项，不要在展示层拼状态文案。
+- **修正量必须有 clamp 区间**：见 `services/factors.py`（光照 ±8、宏观 ±6）。新增因素必须给区间。
+- **回落基线要明说**：无观测时给 `base_score` 并标 `assumption` / `insufficient`，
+  文案须区分「有证据未确认」与「什么都没有」。禁止把回落值伪装成实测值。
+- **信源失败降级不清空**：置 `degraded` 并保留 `last_success_at`。
+- **页面与报告共用同一份 factor snapshot**，不在 `reports.py` 重算。
+- **决策永远由人拍板**：系统不自动准入、淘汰或改项目阶段。
+
+## 数据边界
+
+数据源仅限免费公开数据（PVGIS / World Bank Open Data / OWID / Open-Meteo / 公开 RSS-GDELT）。
+不引入付费 API、商业数据源或绕过反爬的抓取。新闻只存公开标题、摘要与受限短摘录。
+每条结论可回溯到来源 ID 与 Evidence ID。默认本地 SQLite，PostgreSQL / Redis 仅为可选增强。
+
+## 不要做的事
+
+- 不要把模型接进评分链路
+- 不要在展示层编造或润色因素状态
+- 不要让测试依赖真实网络或付费服务（公开数据源调用必须可 mock）
+- 不要提交 `.env`、`backend/*.db`、`.venv/`、`node_modules/`

@@ -1,0 +1,38 @@
+---
+description: "修改后端 Python 代码（backend/）时的约定"
+globs: "backend/**/*.py"
+alwaysApply: false
+---
+
+# 后端（FastAPI + Python）约定
+
+## 分层
+
+- `app/services/<域>.py` —— 业务逻辑，一域一文件
+- `app/schemas.py` —— **所有**数据契约（Pydantic）。新增字段先改这里
+- `app/db.py` —— SQLAlchemy 模型与会话
+- `app/main.py` —— API 入口
+- `tests/` —— pytest，文件名 `test_<域>.py`，与 services 一一对应
+
+## 硬性要求
+
+- 类型注解齐全，文件头 `from __future__ import annotations`
+- 新增服务逻辑**必须配测试**，放在 `tests/test_<域>.py`
+- 任何涉及公开数据源的代码必须**可 mock**（测试里不许真发网络请求）
+- 涉及数值修正的分支必须有 `clamp`，并在 docstring 或注释里写清区间来源
+- `status` 字段的赋值只允许来自判定逻辑，不允许由调用方传入
+
+## 改 `schemas.py` 之后
+
+`schemas.py` 的改动是**跨端**的。改完必须：
+
+1. `cd backend; ..\.venv\Scripts\python.exe -m pytest tests -q`
+2. `cd frontend; npm run lint`
+3. 若字段对外可见，同步更新 `docs/architecture.md`
+
+## 常见坑
+
+- `latest_values()` 用 `setdefault` 取每个 metric_key 的首条观测 → 观测入库顺序会影响结果，
+  加观测时注意顺序语义。
+- `build_factor_snapshot()` 会**写库**（`save_factor_snapshot`），不是纯函数。测试里注意隔离。
+- 无观测的分支给 `base_score` 而非 0，别把「不知道」写成「零分」。

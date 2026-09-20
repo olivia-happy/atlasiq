@@ -1,0 +1,35 @@
+---
+description: "修改前端 React + TypeScript 代码（frontend/）时的约定"
+globs: "frontend/**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# 前端（React 18 + TS + Vite + Tailwind）约定
+
+## 结构
+
+- `src/App.tsx` —— 主工作台
+- `src/types.ts` —— **与后端 `schemas.py` 对应的契约类型**，改动必须同步
+- `src/lib/` —— 工具与 API 调用
+- `src/styles.css` —— 全局样式
+
+## 硬性要求
+
+- TypeScript 严格模式，`npm run lint`（= `tsc --noEmit`）必须零错误
+- **不要在组件里硬编码后端状态语义**。因素三态（observed / assumption / insufficient）来自
+  `types.ts` 的契约字段，UI 只负责呈现，不负责判断
+- 展示回落基线的因素时，必须同时呈现状态标注与覆盖率，**不要让读者把基线当成实测值**
+- 降级状态（信源 degraded、AI 不可用）必须有可见提示，不静默
+
+## 常用命令
+
+```powershell
+npm run dev     # 本地开发
+npm run lint    # tsc --noEmit
+npm run build   # tsc --noEmit && vite build
+```
+
+## 常见坑
+
+- `types.ts` 与 `backend/app/schemas.py` 是**手工同步**的两份契约，改一边必须改另一边。
+- 新增接口字段后先跑 `npm run lint`，类型不匹配会在这里暴露。
